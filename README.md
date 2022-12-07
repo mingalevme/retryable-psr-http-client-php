@@ -1,2 +1,2 @@
-# php-retryable-psr-http-client
+# retryable-psr-http-client-php
 Simple Retryable Psr Http Client Decorator

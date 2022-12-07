@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PHP CS Fixer" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="false" path="$PROJECT_DIR$/vendor/bin/php-cs-fixer" scriptParameters="fix">
+    <CommandLine parameters="-dxdebug.mode=off" workingDirectory="$PROJECT_DIR$" />
+    <method v="2" />
+  </configuration>
+</component>
