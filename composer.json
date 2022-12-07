@@ -2,6 +2,12 @@
     "name": "mingalevme/retryable-psr-http-client",
     "description": "The package provides a familiar PSR HTTP Client interface with automatic retries and exponential backoff (and others strategies). It is a thin wrapper over the standard PSR HTTP Client and exposes same public API. This makes the decorator very easy to drop into existing programs.",
     "type": "library",
+    "homepage": "https://github.com/mingalevme/retryable-psr-http-client-php",
+    "license": "MIT",
+    "keywords": ["psr", "http-client"],
+    "provide": {
+        "psr/http-client-implementation": "1.0"
+    },
     "autoload": {
         "psr-4": {
             "Mingalevme\\RetryablePsrHttpClient\\": "src/"
