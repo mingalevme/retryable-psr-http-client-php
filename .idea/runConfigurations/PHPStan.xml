@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PHPStan" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="false" path="$PROJECT_DIR$/vendor/bin/phpstan" scriptParameters="analyze">
+    <CommandLine parameters="-dxdebug.mode=off" workingDirectory="$PROJECT_DIR$" />
+    <method v="2" />
+  </configuration>
+</component>
