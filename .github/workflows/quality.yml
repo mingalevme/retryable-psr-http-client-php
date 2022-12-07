@@ -1,0 +1,54 @@
+name: Quality
+
+on: [ push, pull_request ]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '8.0', '8.1', '8.2', 'latest' ]
+    runs-on: ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2 # https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # Shared extensions can be disabled by prefixing them with a :.
+          # All extensions depending on the specified extension will also be disabled.
+          extensions: :opcache
+          coverage: xdebug
+      - uses: actions/checkout@v3
+      - name: Validate composer.json
+        run: composer validate --strict
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+      - name: Security audit
+        run: composer audit
+      - name: PHPUnit
+        run: php vendor/bin/phpunit --coverage-clover coverage.xml
+      - name: Psalm
+        run: php -dxdebug.mode=off vendor/bin/psalm
+      - name: PHPStan
+        run: php -dxdebug.mode=off vendor/bin/phpstan analyse
+      - name: PHP CS Fixer
+        run: |
+          PHP_VERSION=$(php -r "echo PHP_VERSION_ID;")
+          if [ "$PHP_VERSION" -lt "80200" ]; then
+            php -dxdebug.mode=off vendor/bin/php-cs-fixer fix --dry-run --diff
+          else
+              echo "PHP CS Fixer is skipped because PHP version is 8.2+"
+          fi
+      - name: Code Sniffer
+        run: php -dxdebug.mode=off vendor/bin/phpcs
+      - name: Codecov
+        uses: codecov/codecov-action@v3 # https://github.com/marketplace/actions/codecov
+        with:
+          files: ./coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)

@@ -22,4 +22,10 @@
             <directory>tests/Suites/Integration</directory>
         </testsuite>-->
     </testsuites>
+    <coverage>
+        <!-- https://phpunit.readthedocs.io/en/9.5/configuration.html#the-include-element -->
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
 </phpunit>
