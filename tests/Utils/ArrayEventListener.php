@@ -11,33 +11,46 @@ use Psr\Http\Message\ResponseInterface;
 
 final class ArrayEventListener implements EventListenerInterface
 {
-    /** @var list<array{int, RequestInterface}> */
+    /** @var list<array{positive-int, RequestInterface}> */
     private array $onRequest = [];
-    /** @var list<array{int, ClientExceptionInterface}> */
+    /** @var list<array{positive-int, RequestInterface, ClientExceptionInterface}> */
     private array $onException = [];
-    /** @var list<array{int, ResponseInterface}> */
+    /** @var list<array{positive-int, RequestInterface, ResponseInterface}> */
     private array $onResponse = [];
-    /** @var list<array{int, ResponseInterface}> */
+    /** @var list<array{positive-int, RequestInterface, ResponseInterface}> */
     private array $onErrorResponse = [];
+    /** @var list<array{positive-int, RequestInterface, ResponseInterface|ClientExceptionInterface}> */
+    private array $onError = [];
 
-    public function onRequest(int $attemptCount, RequestInterface $request): void
+    public function onRequest(int $attemptNumber, RequestInterface $request): void
     {
-        $this->onRequest[] = [$attemptCount, $request];
+        $this->onRequest[] = [$attemptNumber, $request];
     }
 
-    public function onException(int $attemptCount, ClientExceptionInterface $exception): void
-    {
-        $this->onException[] = [$attemptCount, $exception];
+    public function onException(
+        int $attemptNumber,
+        RequestInterface $request,
+        ClientExceptionInterface $exception,
+    ): void {
+        $this->onException[] = [$attemptNumber, $request, $exception];
     }
 
-    public function onResponse(int $attemptCount, ResponseInterface $response): void
+    public function onResponse(int $attemptNumber, RequestInterface $request, ResponseInterface $response): void
     {
-        $this->onResponse[] = [$attemptCount, $response];
+        $this->onResponse[] = [$attemptNumber, $request, $response];
     }
 
-    public function onErrorResponse(int $attemptCount, ResponseInterface $response): void
+    public function onErrorResponse(int $attemptNumber, RequestInterface $request, ResponseInterface $response): void
     {
-        $this->onErrorResponse[] = [$attemptCount, $response];
+        $this->onErrorResponse[] = [$attemptNumber, $request, $response];
+    }
+
+    public function onError(
+        int $attemptNumber,
+        RequestInterface $request,
+        ResponseInterface|ClientExceptionInterface $error,
+    ): void {
+        $this->onError[] = [$attemptNumber, $request, $error];
     }
 
     /**
@@ -49,7 +62,7 @@ final class ArrayEventListener implements EventListenerInterface
     }
 
     /**
-     * @return list<array{int, ClientExceptionInterface}>
+     * @return list<array{int, RequestInterface, ClientExceptionInterface}>
      */
     public function getOnException(): array
     {
@@ -57,7 +70,7 @@ final class ArrayEventListener implements EventListenerInterface
     }
 
     /**
-     * @return list<array{int, ResponseInterface}>
+     * @return list<array{int, RequestInterface, ResponseInterface}>
      */
     public function getOnResponse(): array
     {
@@ -65,11 +78,19 @@ final class ArrayEventListener implements EventListenerInterface
     }
 
     /**
-     * @return list<array{int, ResponseInterface}>
+     * @return list<array{int, RequestInterface, ResponseInterface}>
      */
     public function getOnErrorResponse(): array
     {
         return $this->onErrorResponse;
+    }
+
+    /**
+     * @return list<array{int, RequestInterface, ResponseInterface|ClientExceptionInterface}>
+     */
+    public function getOnError(): array
+    {
+        return $this->onError;
     }
 
     public function clear(): void
@@ -78,5 +99,6 @@ final class ArrayEventListener implements EventListenerInterface
         $this->onException = [];
         $this->onResponse = [];
         $this->onErrorResponse = [];
+        $this->onError = [];
     }
 }

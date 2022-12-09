@@ -72,8 +72,9 @@ final class RetryablePsrHttpClientTest extends TestCase
         self::assertSame([1, $request200], $eventListener->getOnRequest()[0]);
         self::assertCount(0, $eventListener->getOnException());
         self::assertCount(1, $eventListener->getOnResponse());
-        self::assertSame([1, $response200], $eventListener->getOnResponse()[0]);
+        self::assertSame([1, $request200, $response200], $eventListener->getOnResponse()[0]);
         self::assertCount(0, $eventListener->getOnErrorResponse());
+        self::assertCount(0, $eventListener->getOnError());
 
         // 301
 
@@ -97,10 +98,12 @@ final class RetryablePsrHttpClientTest extends TestCase
         self::assertCount(0, $eventListener->getOnException());
         self::assertCount($retryCount, $eventListener->getOnResponse());
         self::assertCount($retryCount, $eventListener->getOnErrorResponse());
+        self::assertCount($retryCount, $eventListener->getOnError());
         foreach (range(0, $retryCount - 1) as $i) {
             self::assertSame([$i + 1, $request301], $eventListener->getOnRequest()[$i]);
-            self::assertSame([$i + 1, $response301], $eventListener->getOnResponse()[$i]);
-            self::assertSame([$i + 1, $response301], $eventListener->getOnErrorResponse()[$i]);
+            self::assertSame([$i + 1, $request301, $response301], $eventListener->getOnResponse()[$i]);
+            self::assertSame([$i + 1, $request301, $response301], $eventListener->getOnErrorResponse()[$i]);
+            self::assertSame([$i + 1, $request301, $response301], $eventListener->getOnError()[$i]);
         }
 
         // Exception
@@ -129,9 +132,11 @@ final class RetryablePsrHttpClientTest extends TestCase
         self::assertCount($retryCount, $eventListener->getOnException());
         self::assertCount(0, $eventListener->getOnResponse());
         self::assertCount(0, $eventListener->getOnErrorResponse());
+        self::assertCount($retryCount, $eventListener->getOnError());
         foreach (range(0, $retryCount - 1) as $i) {
             self::assertSame([$i + 1, $requestExc], $eventListener->getOnRequest()[$i]);
-            self::assertSame([$i + 1, $responseExc], $eventListener->getOnException()[$i]);
+            self::assertSame([$i + 1, $requestExc, $responseExc], $eventListener->getOnException()[$i]);
+            self::assertSame([$i + 1, $requestExc, $responseExc], $eventListener->getOnError()[$i]);
         }
     }
 

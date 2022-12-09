@@ -10,11 +10,36 @@ use Psr\Http\Message\ResponseInterface;
 
 interface EventListenerInterface
 {
-    public function onRequest(int $attemptCount, RequestInterface $request): void;
+    /**
+     * @param positive-int $attemptNumber
+     */
+    public function onRequest(int $attemptNumber, RequestInterface $request): void;
 
-    public function onException(int $attemptCount, ClientExceptionInterface $exception): void;
+    /**
+     * @param positive-int $attemptNumber
+     */
+    public function onException(
+        int $attemptNumber,
+        RequestInterface $request,
+        ClientExceptionInterface $exception,
+    ): void;
 
-    public function onResponse(int $attemptCount, ResponseInterface $response): void;
+    /**
+     * @param positive-int $attemptNumber
+     */
+    public function onResponse(int $attemptNumber, RequestInterface $request, ResponseInterface $response): void;
 
-    public function onErrorResponse(int $attemptCount, ResponseInterface $response): void;
+    /**
+     * @param positive-int $attemptNumber
+     */
+    public function onErrorResponse(int $attemptNumber, RequestInterface $request, ResponseInterface $response): void;
+
+    /**
+     * @param positive-int $attemptNumber
+     */
+    public function onError(
+        int $attemptNumber,
+        RequestInterface $request,
+        ResponseInterface|ClientExceptionInterface $error,
+    ): void;
 }

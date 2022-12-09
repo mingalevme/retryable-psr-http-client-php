@@ -78,18 +78,21 @@ final class RetryablePsrHttpClient implements ClientInterface
             }
             if ($response) {
                 foreach ($this->listeners as $listener) {
-                    $listener->onResponse($attemptNumber, $response);
+                    $listener->onResponse($attemptNumber, $request, $response);
                 }
                 if ($this->responseAnalyzer->isAcceptable($response)) {
                     return $response;
                 }
                 foreach ($this->listeners as $listener) {
-                    $listener->onErrorResponse($attemptNumber, $response);
+                    $listener->onErrorResponse($attemptNumber, $request, $response);
+                    $listener->onError($attemptNumber, $request, $response);
                 }
             } else {
                 foreach ($this->listeners as $listener) {
                     /** @psalm-suppress PossiblyNullArgument */
-                    $listener->onException($attemptNumber, $e);
+                    $listener->onException($attemptNumber, $request, $e);
+                    /** @psalm-suppress PossiblyNullArgument */
+                    $listener->onError($attemptNumber, $request, $e);
                 }
             }
             if ($attemptNumber < $this->retryCount) {
