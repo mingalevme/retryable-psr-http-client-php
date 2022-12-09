@@ -51,6 +51,7 @@ final class RetryablePsrHttpClientTest extends TestCase
             ->setSleeper($sleeper)
             ->setBackoffCalc(new ExponentialBackoffCalc())
             ->setResponseAnalyzer(new NoRedirectResponseAnalyzer())
+            ->setEventListeners(null) // code-cov
             ->addEventListener($eventListener);
         $retryableDmpHttpClient = new RetryablePsrHttpClient($historyPsrHttpClient, $config);
 
