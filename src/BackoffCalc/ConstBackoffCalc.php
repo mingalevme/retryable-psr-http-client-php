@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Mingalevme\RetryablePsrHttpClient\BackoffCalc;
 
 use InvalidArgumentException;
+use Mingalevme\Tests\RetryablePsrHttpClient\Suites\Unit\BackoffCalc\ConstBackoffCalcTest;
 
+/**
+ * @see ConstBackoffCalcTest
+ */
 final class ConstBackoffCalc implements BackoffCalcInterface
 {
     /** @var int<0, max>|float */

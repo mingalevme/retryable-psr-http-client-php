@@ -8,6 +8,7 @@ use Mingalevme\Tests\RetryablePsrHttpClient\Suites\Unit\Sleeper\PhpSleeperTest;
 
 /**
  * @see PhpSleeperTest
+ * @codeCoverageIgnore
  */
 final class PhpSleeper implements SleeperInterface
 {

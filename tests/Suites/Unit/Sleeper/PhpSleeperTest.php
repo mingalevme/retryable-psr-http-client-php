@@ -16,9 +16,10 @@ final class PhpSleeperTest extends TestCase
     {
         $sleeper = new PhpSleeper();
         $t0 = microtime(true);
-        $sleeper->sleep(0.000010);
+        $sleeper->sleep(0.000_010);
+        $sleeper->sleep(0.000_000_1);
         $t1 = microtime(true);
-        self::assertTrue($t1 - $t0 > 0.000009);
+        self::assertTrue($t1 - $t0 > 0.000_009);
         self::assertTrue($t1 - $t0 < 0.001);
     }
 }
