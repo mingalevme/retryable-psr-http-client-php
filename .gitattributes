@@ -1,0 +1,8 @@
+.github export-ignore
+tests/ export-ignore
+.gitignore
+.php-cs-fixer.dist.php export-ignore
+phpcs.xml export-ignore
+phpstan.neon export-ignore
+phpunit.xml export-ignore
+psalm.xml export-ignore

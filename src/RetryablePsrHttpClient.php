@@ -13,12 +13,16 @@ use Mingalevme\RetryablePsrHttpClient\ResponseAnalyzer\Http5xx429ResponseAnalyze
 use Mingalevme\RetryablePsrHttpClient\ResponseAnalyzer\ResponseAnalyzerInterface;
 use Mingalevme\RetryablePsrHttpClient\Sleeper\PhpSleeper;
 use Mingalevme\RetryablePsrHttpClient\Sleeper\SleeperInterface;
+use Mingalevme\Tests\RetryablePsrHttpClient\Suites\Unit\RetryablePsrHttpClientTest;
 use Psr\Clock\ClockInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @see RetryablePsrHttpClientTest
+ */
 final class RetryablePsrHttpClient implements ClientInterface
 {
     private const DEFAULT_RETRY_COUNT = 3;
@@ -163,6 +167,6 @@ final class RetryablePsrHttpClient implements ClientInterface
     private function getTimestampDiffNow(DateTimeImmutable $retryAfter): float
     {
         $now = $this->clock->now();
-        return (float)$retryAfter->diff($now)->format('%r%s.%f');
+        return (float)$now->diff($retryAfter)->format('%r%s.%f');
     }
 }

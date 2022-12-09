@@ -12,9 +12,9 @@ interface EventListenerInterface
 {
     public function onRequest(int $attemptCount, RequestInterface $request): void;
 
-    public function onResponse(int $attemptCount, ResponseInterface $response): void;
-
     public function onException(int $attemptCount, ClientExceptionInterface $exception): void;
+
+    public function onResponse(int $attemptCount, ResponseInterface $response): void;
 
     public function onErrorResponse(int $attemptCount, ResponseInterface $response): void;
 }
