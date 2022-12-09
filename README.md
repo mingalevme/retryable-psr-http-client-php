@@ -5,7 +5,7 @@
 [![version](https://img.shields.io/packagist/v/mingalevme/retryable-psr-http-client)](https://packagist.org/packages/mingalevme/retryable-psr-http-client)
 [![license](https://img.shields.io/packagist/l/mingalevme/retryable-psr-http-client)](https://packagist.org/packages/mingalevme/retryable-psr-http-client)
 
-Simple Retryable Psr Http Client Decorator with **Retry-After**-header support*.
+Simple Retryable Psr Http Client Decorator with **Retry-After**-header support* and 100% code coverage.
 
 > **_NOTE:_**  **Retry-After**-header support is disabled by default
 > because relying on untrusted headers it risky and dangerous,
