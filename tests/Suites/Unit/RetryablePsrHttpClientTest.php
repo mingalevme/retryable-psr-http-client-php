@@ -18,6 +18,7 @@ use Mingalevme\Tests\RetryablePsrHttpClient\Utils\ArrayEventListener;
 use Mingalevme\Tests\RetryablePsrHttpClient\Utils\ArraySleeper;
 use Mingalevme\Tests\RetryablePsrHttpClient\Utils\ListOfValuesClock;
 use Mingalevme\Tests\RetryablePsrHttpClient\Utils\NoRedirectResponseAnalyzer;
+use Mingalevme\Tests\RetryablePsrHttpClient\Utils\RequestBodyReaderPsrHttpClientDecorator;
 use Psr\Http\Client\ClientExceptionInterface;
 use RuntimeException;
 
@@ -139,6 +140,27 @@ final class RetryablePsrHttpClientTest extends TestCase
             self::assertSame([$i + 1, $requestExc, $responseExc], $eventListener->getOnException()[$i]);
             self::assertSame([$i + 1, $requestExc, $responseExc], $eventListener->getOnError()[$i]);
         }
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     */
+    public function testPostBodyRewind(): void
+    {
+        $retryCount = 3;
+        $request = $this->createRequest('POST', '/test')
+            ->withBody($this->createStream('test'));
+        $response = $this->createResponse(500);
+        $psrHttpClient = (new StaticResponseMapPsrHttpClient())
+            ->add('POST', '/test', $response);
+        $psrHttpClient = new RequestBodyReaderPsrHttpClientDecorator($psrHttpClient);
+        $sleeper = new ArraySleeper();
+        $config = Config::new()
+            ->setRetryCount($retryCount)
+            ->setSleeper($sleeper);
+        $retryableDmpHttpClient = new RetryablePsrHttpClient($psrHttpClient, $config);
+        self::assertSame($response, $retryableDmpHttpClient->sendRequest($request));
+        self::assertSame(array_fill(0, $retryCount, 'test'), $psrHttpClient->getBodies());
     }
 
     /**

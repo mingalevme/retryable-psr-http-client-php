@@ -69,6 +69,9 @@ final class RetryablePsrHttpClient implements ClientInterface
         for ($attemptNumber = 1; $attemptNumber <= $this->retryCount; $attemptNumber++) {
             $response = null;
             $e = null;
+            if ($request->getBody()->tell() > 0 && $request->getBody()->isSeekable()) {
+                $request->getBody()->rewind();
+            }
             foreach ($this->listeners as $listener) {
                 $listener->onRequest($attemptNumber, $request);
             }

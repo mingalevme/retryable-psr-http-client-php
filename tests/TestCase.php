@@ -7,6 +7,7 @@ namespace Mingalevme\Tests\RetryablePsrHttpClient;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
@@ -32,5 +33,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
     {
         return $this->getGuzzleHttpFactory()->createResponse($code, $reasonPhrase);
+    }
+
+    protected function createStream(string $content = ''): StreamInterface
+    {
+        return $this->getGuzzleHttpFactory()->createStream($content);
     }
 }
