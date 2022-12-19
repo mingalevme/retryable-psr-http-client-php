@@ -7,7 +7,7 @@
 
 Simple Retryable Psr Http Client Decorator with **Retry-After**-header support* and 100% code coverage.
 
-> **_NOTE:_**  **Retry-After**-header support is disabled by default
+> **_NOTE:_**  **Retry-After**-header handling is disabled by default
 > because relying on untrusted headers it risky and dangerous,
 > turn it on only if you clearly understand the consequences.
 
