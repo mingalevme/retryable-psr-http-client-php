@@ -105,7 +105,7 @@ final class RetryablePsrHttpClient implements ClientInterface
         if ($e) {
             throw $e;
         }
-        /** @psalm-suppress NullableReturnStatement */
+        /** @var ResponseInterface $response */
         return $response;
     }
 
