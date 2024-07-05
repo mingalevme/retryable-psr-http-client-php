@@ -9,6 +9,9 @@ use Mingalevme\RetryablePsrHttpClient\ResponseAnalyzer\ResponseAnalyzerInterface
 use Mingalevme\RetryablePsrHttpClient\Sleeper\SleeperInterface;
 use Psr\Clock\ClockInterface;
 
+/**
+ * @psalm-api
+ */
 final class Config
 {
     /** @var int<1, max>|null */
@@ -17,7 +20,7 @@ final class Config
     private ?SleeperInterface $sleeper = null;
     private ?ResponseAnalyzerInterface $responseAnalyzer = null;
     /** @var list<EventListenerInterface> */
-    private ?array $eventListeners = [];
+    private array $eventListeners = [];
     private ?bool $respectRetryAfterHeader = null;
     private ?ClockInterface $clock = null;
 
@@ -114,11 +117,11 @@ final class Config
     }
 
     /**
-     * @return list<EventListenerInterface>|null
+     * @return list<EventListenerInterface>
      */
-    public function getEventListeners(): ?array
+    public function getEventListeners(): array
     {
-        return $this->eventListeners ?: null;
+        return $this->eventListeners;
     }
 
     /**

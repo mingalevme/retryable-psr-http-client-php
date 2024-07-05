@@ -2,6 +2,8 @@
 <psalm
     phpVersion="8.0"
     errorLevel="1"
+    findUnusedCode="true"
+    findUnusedBaselineEntry="true"
 >
     <projectFiles>
         <directory name="src" />
@@ -10,4 +12,11 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </UnusedClass>
+    </issueHandlers>
 </psalm>

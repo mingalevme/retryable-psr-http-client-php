@@ -18,12 +18,16 @@ final class ArrayEventListener implements EventListenerInterface
     /** @var list<array{positive-int, RequestInterface, ResponseInterface}> */
     private array $onResponse = [];
     /** @var list<array{positive-int, RequestInterface, ResponseInterface}> */
+    private array $onSuccess = [];
+    /** @var list<array{positive-int, RequestInterface, ResponseInterface}> */
     private array $onErrorResponse = [];
     /** @var list<array{positive-int, RequestInterface, ResponseInterface|ClientExceptionInterface}> */
     private array $onError = [];
 
-    public function onRequest(int $attemptNumber, RequestInterface $request): void
-    {
+    public function onRequest(
+        int $attemptNumber,
+        RequestInterface $request,
+    ): void {
         $this->onRequest[] = [$attemptNumber, $request];
     }
 
@@ -35,13 +39,28 @@ final class ArrayEventListener implements EventListenerInterface
         $this->onException[] = [$attemptNumber, $request, $exception];
     }
 
-    public function onResponse(int $attemptNumber, RequestInterface $request, ResponseInterface $response): void
-    {
+    public function onResponse(
+        int $attemptNumber,
+        RequestInterface $request,
+        ResponseInterface $response,
+    ): void {
         $this->onResponse[] = [$attemptNumber, $request, $response];
     }
 
-    public function onErrorResponse(int $attemptNumber, RequestInterface $request, ResponseInterface $response): void
-    {
+
+    public function onSuccess(
+        int $attemptNumber,
+        RequestInterface $request,
+        ResponseInterface $response,
+    ): void {
+        $this->onSuccess[] = [$attemptNumber, $request, $response];
+    }
+
+    public function onErrorResponse(
+        int $attemptNumber,
+        RequestInterface $request,
+        ResponseInterface $response,
+    ): void {
         $this->onErrorResponse[] = [$attemptNumber, $request, $response];
     }
 
@@ -80,6 +99,14 @@ final class ArrayEventListener implements EventListenerInterface
     /**
      * @return list<array{int, RequestInterface, ResponseInterface}>
      */
+    public function getOnSuccess(): array
+    {
+        return $this->onSuccess;
+    }
+
+    /**
+     * @return list<array{int, RequestInterface, ResponseInterface}>
+     */
     public function getOnErrorResponse(): array
     {
         return $this->onErrorResponse;
@@ -98,6 +125,7 @@ final class ArrayEventListener implements EventListenerInterface
         $this->onRequest = [];
         $this->onException = [];
         $this->onResponse = [];
+        $this->onSuccess = [];
         $this->onErrorResponse = [];
         $this->onError = [];
     }

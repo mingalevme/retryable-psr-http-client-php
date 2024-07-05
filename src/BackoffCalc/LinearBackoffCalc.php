@@ -22,14 +22,22 @@ final class LinearBackoffCalc implements BackoffCalcInterface
         int|float|null $slope = self::DEFAULT_SLOPE,
         int|float|null $initValue = self::DEFAULT_INIT_VALUE,
     ) {
-        if ($slope !== null && (float)$slope < 0.0) {
-            throw new InvalidArgumentException('Slope must be positive');
+        if ($slope === null) {
+            $this->slope = self::DEFAULT_SLOPE;
+        } else {
+            if ($slope < 0.0) {
+                throw new InvalidArgumentException('Slope must be positive');
+            }
+            $this->slope = $slope;
         }
-        $this->slope = $slope ?: self::DEFAULT_SLOPE;
-        if ($initValue !== null && (float)$initValue < 0.0) {
-            throw new InvalidArgumentException('Initial value must be non-negative');
+        if ($initValue === null) {
+            $this->initValue = self::DEFAULT_INIT_VALUE;
+        } else {
+            if ($initValue < 0.0) {
+                throw new InvalidArgumentException('Initial value must be non-negative');
+            }
+            $this->initValue = $initValue;
         }
-        $this->initValue = $initValue ?: self::DEFAULT_INIT_VALUE;
     }
 
     public function calculate(int $attemptNumber): int|float

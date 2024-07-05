@@ -18,10 +18,14 @@ final class ExponentialBackoffCalc implements BackoffCalcInterface
      */
     public function __construct(int|float|null $base = self::DEFAULT_BASE)
     {
-        if ($base !== null && (float)$base <= 0.0) {
+        if ($base === null) {
+            $this->base = self::DEFAULT_BASE;
+            return;
+        }
+        if ($base <= 0.0) {
             throw new InvalidArgumentException('Base must be positive');
         }
-        $this->base = $base ?: self::DEFAULT_BASE;
+        $this->base = $base;
     }
 
     public function calculate(int $attemptNumber): int|float

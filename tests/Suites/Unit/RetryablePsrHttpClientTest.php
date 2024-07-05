@@ -75,6 +75,8 @@ final class RetryablePsrHttpClientTest extends TestCase
         self::assertCount(0, $eventListener->getOnException());
         self::assertCount(1, $eventListener->getOnResponse());
         self::assertSame([1, $request200, $response200], $eventListener->getOnResponse()[0]);
+        self::assertCount(1, $eventListener->getOnSuccess());
+        self::assertSame([1, $request200, $response200], $eventListener->getOnSuccess()[0]);
         self::assertCount(0, $eventListener->getOnErrorResponse());
         self::assertCount(0, $eventListener->getOnError());
 
@@ -99,6 +101,7 @@ final class RetryablePsrHttpClientTest extends TestCase
         self::assertCount($retryCount, $eventListener->getOnRequest());
         self::assertCount(0, $eventListener->getOnException());
         self::assertCount($retryCount, $eventListener->getOnResponse());
+        self::assertCount(0, $eventListener->getOnSuccess());
         self::assertCount($retryCount, $eventListener->getOnErrorResponse());
         self::assertCount($retryCount, $eventListener->getOnError());
         foreach (range(0, $retryCount - 1) as $i) {
@@ -133,6 +136,7 @@ final class RetryablePsrHttpClientTest extends TestCase
         self::assertCount($retryCount, $eventListener->getOnRequest());
         self::assertCount($retryCount, $eventListener->getOnException());
         self::assertCount(0, $eventListener->getOnResponse());
+        self::assertCount(0, $eventListener->getOnSuccess());
         self::assertCount(0, $eventListener->getOnErrorResponse());
         self::assertCount($retryCount, $eventListener->getOnError());
         foreach (range(0, $retryCount - 1) as $i) {

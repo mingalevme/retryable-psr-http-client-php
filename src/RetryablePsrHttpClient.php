@@ -48,7 +48,7 @@ final class RetryablePsrHttpClient implements ClientInterface
         $this->backoffCalc = $config?->getBackoffCalc() ?: new ExponentialBackoffCalc();
         $this->sleeper = $config?->getSleeper() ?: new PhpSleeper();
         $this->responseAnalyzer = $config?->getResponseAnalyzer() ?: new Http5xx429ResponseAnalyzer();
-        $this->listeners = $config?->getEventListeners() ?: [];
+        $this->listeners = (array)$config?->getEventListeners();
         /** @psalm-suppress PossiblyNullReference */
         $this->respectRetryAfterHeader = ($config?->getRespectRetryAfterHeader() === null)
             ? self::DEFAULT_RESPECT_RETRY_AFTER_HEADER
@@ -84,6 +84,9 @@ final class RetryablePsrHttpClient implements ClientInterface
                     $listener->onResponse($attemptNumber, $request, $response);
                 }
                 if ($this->responseAnalyzer->isAcceptable($response)) {
+                    foreach ($this->listeners as $listener) {
+                        $listener->onSuccess($attemptNumber, $request, $response);
+                    }
                     return $response;
                 }
                 foreach ($this->listeners as $listener) {
