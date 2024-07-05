@@ -54,7 +54,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
-final class MyAppHttpClientErrLogEventListener extends NullEventListener
+final class MyAppHttpClientErrLogEventListener extends AbstractEventListener
 {
     public function __construct(
         private LoggerInterface $logger,
