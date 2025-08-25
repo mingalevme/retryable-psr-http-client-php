@@ -43,12 +43,13 @@ jobs:
         run: php -d xdebug.mode=off vendor/bin/phpstan analyse
       - name: PHP CS Fixer
         run: |
-          PHP_VERSION=$(php -r "echo PHP_VERSION_ID;")
-          if [ "$PHP_VERSION" -lt "80500" ]; then
-            php -d xdebug.mode=off vendor/bin/php-cs-fixer fix --dry-run --diff
-          else
-              echo "PHP CS Fixer is skipped because PHP version is 8.5+"
-          fi
+          #PHP_VERSION=$(php -r "echo PHP_VERSION_ID;")
+          #if [ "$PHP_VERSION" -lt "80500" ]; then
+          #  php -d xdebug.mode=off vendor/bin/php-cs-fixer fix --dry-run --diff
+          #else
+          #  echo "PHP CS Fixer is skipped because PHP version is 8.5+"
+          #fi
+          php -d xdebug.mode=off vendor/bin/php-cs-fixer fix --dry-run --diff
       - name: Code Sniffer
         run: php -d xdebug.mode=off vendor/bin/phpcs
       - name: Codecov
