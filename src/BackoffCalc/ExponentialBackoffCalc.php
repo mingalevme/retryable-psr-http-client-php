@@ -31,6 +31,9 @@ final class ExponentialBackoffCalc implements BackoffCalcInterface
     #[\Override]
     public function calculate(int $attemptNumber): int|float
     {
+        if (is_float($this->base)) {
+            return abs($this->base ** floatval($attemptNumber - 1));
+        }
         return abs($this->base ** ($attemptNumber - 1));
     }
 }

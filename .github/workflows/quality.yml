@@ -32,7 +32,7 @@ jobs:
       - name: PHPUnit
         run: |
           php vendor/bin/phpunit --migrate-configuration || true
-          php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-clover coverage.xml
+          php -d xdebug.mode=coverage vendor/bin/phpunit --fail-on-all-issues --coverage-clover coverage.xml
       - name: Psalm
         run: php -d xdebug.mode=off vendor/bin/psalm
       - name: PHPStan
