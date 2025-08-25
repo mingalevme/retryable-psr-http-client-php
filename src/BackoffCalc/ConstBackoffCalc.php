@@ -26,6 +26,7 @@ final class ConstBackoffCalc implements BackoffCalcInterface
         $this->timeout = $timeout;
     }
 
+    #[\Override]
     public function calculate(int $attemptNumber): int|float
     {
         return $this->timeout;

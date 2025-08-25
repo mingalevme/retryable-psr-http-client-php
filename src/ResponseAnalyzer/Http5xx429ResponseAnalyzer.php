@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class Http5xx429ResponseAnalyzer implements ResponseAnalyzerInterface
 {
+    #[\Override]
     public function isAcceptable(ResponseInterface $response): bool
     {
         return $response->getStatusCode() < 500 && $response->getStatusCode() !== 429;

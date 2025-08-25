@@ -21,8 +21,10 @@ final class ListOfValuesClock implements ClockInterface
         $this->values = $this->iterableToGenerator($lizt);
     }
 
+    #[\Override]
     public function now(): DateTimeImmutable
     {
+        /** @psalm-var DateTimeImmutable $v */
         $v = $this->values->current();
         $this->values->next();
         return $v;

@@ -16,6 +16,7 @@ final class BrokenClock implements ClockInterface
         $this->timestamp = $timestamp;
     }
 
+    #[\Override]
     public function now(): DateTimeImmutable
     {
         return $this->timestamp;

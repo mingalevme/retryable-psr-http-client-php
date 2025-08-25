@@ -11,6 +11,7 @@ final class ArraySleeper implements SleeperInterface
     /** @var list<int<0, max>|float> */
     private array $sleeps = [];
 
+    #[\Override]
     public function sleep(int|float $timeout): void
     {
         $this->sleeps[] = $timeout;

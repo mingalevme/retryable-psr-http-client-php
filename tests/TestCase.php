@@ -12,9 +12,6 @@ use Psr\Http\Message\UriInterface;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    protected $backupStaticAttributes = false;
-    protected $runTestInSeparateProcess = false;
-
     private ?HttpFactory $guzzleHttpFactory = null;
 
     private function getGuzzleHttpFactory(): HttpFactory

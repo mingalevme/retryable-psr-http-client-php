@@ -12,12 +12,15 @@ use Mingalevme\Tests\RetryablePsrHttpClient\Suites\Unit\Sleeper\PhpSleeperTest;
  */
 final class PhpSleeper implements SleeperInterface
 {
+    #[\Override]
     public function sleep(int|float $timeout): void
     {
-        if ($timeout < 0.000001) {
+        if (floatval($timeout) < 0.000001) {
             return;
         }
-        $timeoutUs = abs(intval($timeout * 1_000_000));
+        $timeoutUs = is_int($timeout)
+            ? abs($timeout * 1_000_000)
+            : abs(intval($timeout * 1_000_000.0));
         usleep($timeoutUs);
     }
 }

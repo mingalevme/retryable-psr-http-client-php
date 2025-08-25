@@ -24,6 +24,7 @@ final class ArrayEventListener implements EventListenerInterface
     /** @var list<array{positive-int, RequestInterface, ResponseInterface|ClientExceptionInterface}> */
     private array $onError = [];
 
+    #[\Override]
     public function onRequest(
         int $attemptNumber,
         RequestInterface $request,
@@ -31,6 +32,7 @@ final class ArrayEventListener implements EventListenerInterface
         $this->onRequest[] = [$attemptNumber, $request];
     }
 
+    #[\Override]
     public function onException(
         int $attemptNumber,
         RequestInterface $request,
@@ -39,6 +41,7 @@ final class ArrayEventListener implements EventListenerInterface
         $this->onException[] = [$attemptNumber, $request, $exception];
     }
 
+    #[\Override]
     public function onResponse(
         int $attemptNumber,
         RequestInterface $request,
@@ -48,6 +51,7 @@ final class ArrayEventListener implements EventListenerInterface
     }
 
 
+    #[\Override]
     public function onSuccess(
         int $attemptNumber,
         RequestInterface $request,
@@ -56,6 +60,7 @@ final class ArrayEventListener implements EventListenerInterface
         $this->onSuccess[] = [$attemptNumber, $request, $response];
     }
 
+    #[\Override]
     public function onErrorResponse(
         int $attemptNumber,
         RequestInterface $request,
@@ -64,6 +69,7 @@ final class ArrayEventListener implements EventListenerInterface
         $this->onErrorResponse[] = [$attemptNumber, $request, $response];
     }
 
+    #[\Override]
     public function onError(
         int $attemptNumber,
         RequestInterface $request,

@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 
 final class NoRedirectResponseAnalyzer implements ResponseAnalyzerInterface
 {
+    #[\Override]
     public function isAcceptable(ResponseInterface $response): bool
     {
         return $response->getStatusCode() < 300 || $response->getStatusCode() >= 400;

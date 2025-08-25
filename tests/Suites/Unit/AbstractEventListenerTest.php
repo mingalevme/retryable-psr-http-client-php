@@ -9,15 +9,15 @@ use Mingalevme\Tests\RetryablePsrHttpClient\TestCase;
 use Psr\Http\Client\ClientExceptionInterface;
 use RuntimeException;
 
-final class NullEventListenerTest extends TestCase
+final class AbstractEventListenerTest extends TestCase
 {
     public function test(): void
     {
         $request = $this->createRequest('GET', '/');
         $response = $this->createResponse();
-        $exception = new class extends RuntimeException implements ClientExceptionInterface {
+        $exception = new class () extends RuntimeException implements ClientExceptionInterface {
         };
-        $listener = new class extends AbstractEventListener {
+        $listener = new class () extends AbstractEventListener {
         };
         $listener->onRequest(1, $request);
         $listener->onException(1, $request, $exception);
@@ -26,6 +26,7 @@ final class NullEventListenerTest extends TestCase
         $listener->onErrorResponse(1, $request, $response);
         $listener->onError(1, $request, $response);
         $listener->onError(1, $request, $exception);
+        /** @phpstan-ignore-next-line */
         self::assertTrue(true);
     }
 }

@@ -40,8 +40,12 @@ final class LinearBackoffCalc implements BackoffCalcInterface
         }
     }
 
+    #[\Override]
     public function calculate(int $attemptNumber): int|float
     {
+        if (is_float($this->initValue) || is_float($this->slope)) {
+            return floatval($this->initValue) * floatval($attemptNumber) * floatval($this->slope);
+        }
         return $this->initValue + $attemptNumber * $this->slope;
     }
 }

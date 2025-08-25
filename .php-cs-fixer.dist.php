@@ -1,7 +1,9 @@
 <?php
 
 $rules = [
-    '@PSR2' => true,
+    '@PSR12' => true,
+    '@PHP80Migration' => true,
+    '@PHP80Migration:risky' => true,
     'array_syntax' => ['syntax' => 'short'],
     'trim_array_spaces' => true,
     'no_useless_else' => true,

@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.0', '8.1', '8.2', '8.3', 'latest' ]
+        php-versions: [ '8.0', '8.1', '8.2', '8.3', '8.4', 'latest' ]
     runs-on: ${{ matrix.operating-system }}
     name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
     steps:
@@ -30,21 +30,21 @@ jobs:
       - name: Security audit
         run: composer audit
       - name: PHPUnit
-        run: php vendor/bin/phpunit --coverage-clover coverage.xml
+        run: php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-clover coverage.xml
       - name: Psalm
-        run: php -dxdebug.mode=off vendor/bin/psalm
+        run: php -d xdebug.mode=off vendor/bin/psalm
       - name: PHPStan
-        run: php -dxdebug.mode=off vendor/bin/phpstan analyse
+        run: php -d xdebug.mode=off vendor/bin/phpstan analyse
       - name: PHP CS Fixer
         run: |
           PHP_VERSION=$(php -r "echo PHP_VERSION_ID;")
-          if [ "$PHP_VERSION" -lt "80300" ]; then
-            php -dxdebug.mode=off vendor/bin/php-cs-fixer fix --dry-run --diff
+          if [ "$PHP_VERSION" -lt "80500" ]; then
+            php -d xdebug.mode=off vendor/bin/php-cs-fixer fix --dry-run --diff
           else
-              echo "PHP CS Fixer is skipped because PHP version is 8.3+"
+              echo "PHP CS Fixer is skipped because PHP version is 8.5+"
           fi
       - name: Code Sniffer
-        run: php -dxdebug.mode=off vendor/bin/phpcs
+        run: php -d xdebug.mode=off vendor/bin/phpcs
       - name: Codecov
         uses: codecov/codecov-action@v3 # https://github.com/marketplace/actions/codecov
         with:

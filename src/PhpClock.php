@@ -13,6 +13,7 @@ use Psr\Clock\ClockInterface;
  */
 final class PhpClock implements ClockInterface
 {
+    #[\Override]
     public function now(): DateTimeImmutable
     {
         return new DateTimeImmutable('now');

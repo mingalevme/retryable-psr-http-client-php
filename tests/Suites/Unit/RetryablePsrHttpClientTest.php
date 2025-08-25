@@ -38,7 +38,7 @@ final class RetryablePsrHttpClientTest extends TestCase
         $request301 = $this->createRequest('GET', '/test-301');
         $response301 = $this->createResponse(301);
         $requestExc = $this->createRequest('GET', '/test-exception');
-        $responseExc = new class extends RuntimeException implements ClientExceptionInterface {
+        $responseExc = new class () extends RuntimeException implements ClientExceptionInterface {
         };
         $psrHttpClient = (new StaticResponseMapPsrHttpClient())
             ->add('GET', '/test-200', $response200)
@@ -201,8 +201,12 @@ final class RetryablePsrHttpClientTest extends TestCase
         $retryCount = 3;
         /** @var DateTimeImmutable $now */
         $now = DateTimeImmutable::createFromFormat('U', (string)time());
-        $nowPlus10s = $now->add(DateInterval::createFromDateString('10 seconds'));
-        $nowPlus15s = $now->add(DateInterval::createFromDateString('15 seconds'));
+        /** @var DateInterval $interval10S */
+        $interval10S = DateInterval::createFromDateString('10 seconds');
+        $nowPlus10s = $now->add($interval10S);
+        /** @var DateInterval $interval15S */
+        $interval15S = DateInterval::createFromDateString('15 seconds');
+        $nowPlus15s = $now->add($interval15S);
         $request = $this->createRequest('GET', '/test');
         $response1 = $this->createResponse(500)
             ->withHeader('Retry-After', $nowPlus10s->format(DateTimeInterface::RFC1123));

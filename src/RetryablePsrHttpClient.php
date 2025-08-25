@@ -60,6 +60,7 @@ final class RetryablePsrHttpClient implements ClientInterface
      * @psalm-suppress InvalidNullableReturnType
      * @throws ClientExceptionInterface
      */
+    #[\Override]
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         /** @var ResponseInterface|null $response */
@@ -134,7 +135,7 @@ final class RetryablePsrHttpClient implements ClientInterface
         $timeoutFromHeader = 0.0;
         if ($response && $this->respectRetryAfterHeader) {
             foreach ($this->getTimeoutsFromResponse($response) as $timeout) {
-                $timeoutFromHeader += $timeout;
+                $timeoutFromHeader += floatval($timeout);
                 yield $timeout;
             }
         }

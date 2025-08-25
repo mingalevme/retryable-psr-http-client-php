@@ -10,6 +10,7 @@ namespace Mingalevme\RetryablePsrHttpClient\Sleeper;
  */
 final class NoSleepSleeper implements SleeperInterface
 {
+    #[\Override]
     public function sleep(int|float $timeout): void
     {
     }

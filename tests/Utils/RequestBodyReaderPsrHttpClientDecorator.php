@@ -19,6 +19,7 @@ final class RequestBodyReaderPsrHttpClientDecorator implements ClientInterface
         $this->client = $client;
     }
 
+    #[\Override]
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         $this->bodies[] = $request->getBody()->getContents();
