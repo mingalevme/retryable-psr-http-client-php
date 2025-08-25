@@ -31,8 +31,7 @@ jobs:
         run: composer audit
       - name: PHPUnit
         run: |
-          ls -la
-          php vendor/bin/phpunit --migrate-configuration -c phpunit.xml || true
+          php vendor/bin/phpunit --migrate-configuration || true
           php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-clover coverage.xml
       - name: Psalm
         run: php -d xdebug.mode=off vendor/bin/psalm
